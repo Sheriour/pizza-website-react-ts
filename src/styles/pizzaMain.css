@@ -1,0 +1,44 @@
+label {
+    font-weight: bold;
+}
+
+.piz-active {
+    background-color: gold;  
+}
+
+.piz-ingredient-double {
+    background-color: rgb(255, 239, 149);
+}
+
+.piz-ingredient-single {
+    background-color: rgb(252, 245, 208);
+}
+
+.piz-hover {
+    --bs-dropdown-link-hover-bg: rgb(255, 230, 88);
+}
+
+.btn-pizza-active {
+    background-color: gold;  
+}
+
+.btn-pizza-active:hover {
+    background-color: rgb(255, 230, 88);
+    transition: 0.7s;
+}
+
+.btn-pizza-clickable {
+    background-color: rgb(241, 166, 67);
+    --bs-btn-active-bg: rgb(255, 230, 88);
+}
+
+.btn-pizza-clickable:hover {
+    background-color: rgb(255, 230, 88);
+    transition: 0.7s;
+}
+
+.btn-pizza-clickable:active {
+    background-color: rgb(255, 230, 88);
+    transition: 0.7s;
+}
+
