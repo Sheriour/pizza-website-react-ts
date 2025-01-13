@@ -4,6 +4,10 @@ import PizzaListPage from "./PizzaListPage";
 import TopMenuButton from "./TopMenuButton";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
+//Types.ts < define types there
+//Have a pile of Pizza objects: Keep Pizzas as a useState array here in MainApp
+//Create-Pizza button needs to create objects of Pizza and add them to the array
+
 function MainApp() {
   //Can be initial, newpizza, pizzalist
   const [appMode, setAppMode] = useState("initial");

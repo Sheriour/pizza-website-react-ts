@@ -1,19 +1,14 @@
 import { useRef } from "react";
 import { useState } from "react";
 import "../styles/pizzaMain.css";
-
-type ingredient = {
-  id: number;
-  name: string;
-  portion: number; //not included (0), single portion (1), double portion (2)
-};
+import { Ingredient } from "../types";
 
 function NewPizzaPage() {
   let innerMargins: string = "mt-3";
 
   const nameInputRef = useRef<HTMLInputElement>(null);
   const [crust, setCrust] = useState("Select Crust");
-  const [ingredients, setIngredients] = useState<ingredient[]>([
+  const [ingredients, setIngredients] = useState<Ingredient[]>([
     {
       id: 1,
       name: "Pepperoni",
@@ -22,12 +17,12 @@ function NewPizzaPage() {
     {
       id: 2,
       name: "Mozarella",
-      portion: 1,
+      portion: 0,
     },
     {
       id: 3,
       name: "Mixed Peppers",
-      portion: 2,
+      portion: 0,
     },
   ]);
 
