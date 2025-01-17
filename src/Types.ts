@@ -5,7 +5,7 @@ export type Ingredient = {
   };
 
 export type Pizza = {
-    name: string;
+    pizzaName: string;
     crust: string;
     ingrendients: Ingredient[];
 }

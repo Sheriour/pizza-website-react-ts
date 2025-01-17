@@ -1,9 +1,13 @@
 import { useRef } from "react";
 import { useState } from "react";
 import "../styles/pizzaMain.css";
-import { Ingredient } from "../types";
+import { Ingredient, Pizza } from "../Types";
 
-function NewPizzaPage() {
+type newPizzaPageProps = {
+  onAddCreatedPizza: (newPizza: Pizza) => void
+}
+
+function NewPizzaPage({onAddCreatedPizza}: newPizzaPageProps) {
   let innerMargins: string = "mt-3";
 
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -27,10 +31,16 @@ function NewPizzaPage() {
   ]);
 
   /**
-   * Creates the pizza (TODO: expand on this once you got proper handling here)
+   * Saves created pizza to the list of created pizzas
    */
-  const handlePizzaCreate = () => {
-    if (nameInputRef.current) console.log(nameInputRef.current.value);
+  const getCreatedPizza = (): Pizza => {
+    let name = "";
+    if (nameInputRef.current) 
+        name = nameInputRef.current.value;
+
+    let selectedIngredients = ingredients.filter((x) => x.portion > 0);
+
+    return { crust: crust, pizzaName: name, ingrendients: selectedIngredients}
   };
 
   /**
@@ -136,7 +146,7 @@ function NewPizzaPage() {
 
         <div className={"text-center " + innerMargins}>
           <button
-            onClick={handlePizzaCreate}
+            onClick={() => onAddCreatedPizza(getCreatedPizza())}
             type="button"
             className="btn btn-pizza-clickable"
             style={{ width: 200 }}

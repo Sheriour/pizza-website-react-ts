@@ -1,6 +1,6 @@
 import "../styles/pizzaMain.css";
 
-type Props = {
+type topMenuButtonProps = {
   buttonIdentifier: string;
   currentAppMode: string;
   buttonText: string;
@@ -12,7 +12,7 @@ function TopMenuButton({
   currentAppMode,
   buttonText,
   onClick,
-}: Props) {
+}: topMenuButtonProps) {
   return (
     <div className="col">
       <div className="row">
