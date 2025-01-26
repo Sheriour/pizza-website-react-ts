@@ -1,3 +1,8 @@
+/*Override autofill blue colour that remained after selection*/
+input:-webkit-autofill {
+  transition: background-color 99999s;
+}
+
 label {
     font-weight: bold;
 }
@@ -30,6 +35,11 @@ label {
 .btn-pizza-clickable {
     background-color: rgb(241, 166, 67);
     --bs-btn-active-bg: rgb(255, 230, 88);
+
+}
+
+.btn-pizza-clickable.dropdown-toggle  {
+    --bs-btn-border-width: 0;
 }
 
 .btn-pizza-clickable:hover {

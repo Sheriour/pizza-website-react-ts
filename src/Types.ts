@@ -7,5 +7,5 @@ export type Ingredient = {
 export type Pizza = {
     pizzaName: string;
     crust: string;
-    ingrendients: Ingredient[];
+    ingredients: Ingredient[];
 }

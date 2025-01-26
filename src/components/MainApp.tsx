@@ -4,23 +4,26 @@ import PizzaListPage from "./PizzaListPage";
 import TopMenuButton from "./TopMenuButton";
 import { Pizza } from "../Types";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function MainApp() {
-
   //Can be initial, newpizza, pizzalist
   const [appMode, setAppMode] = useState("initial");
-
-  //Global list of pizzas
-  const [createdPizzas, setCreatedPizzas] = useState<Pizza[]>();
 
   const onSelectAppMode = (newAppMode: string) => {
     setAppMode(newAppMode);
   };
 
-  const onAddCreatedPizza = (newPizza: Pizza) => {
-    createdPizzas?.push(newPizza);
+  //Global list of pizzas
+  const [createdPizzas, setCreatedPizzas] = useState<Pizza[]>([]);
 
-    console.log(newPizza);
+  const onAddCreatedPizza = (newPizza: Pizza) => {
+    setCreatedPizzas((previousCreatedPizzas) => [
+      ...previousCreatedPizzas,
+      newPizza,
+    ]);
+
+    console.log(createdPizzas);
   };
 
   return (
@@ -35,7 +38,7 @@ function MainApp() {
       </div>
 
       {/*Button container*/}
-      <div className="mt-2 row">
+      <div className="mt-2 pb-2 row">
         {/*New Pizza Button*/}
         <TopMenuButton
           currentAppMode={appMode}
@@ -56,7 +59,7 @@ function MainApp() {
         {appMode == "newpizza" ? (
           <NewPizzaPage onAddCreatedPizza={onAddCreatedPizza} />
         ) : appMode == "pizzalist" ? (
-          <PizzaListPage />
+          <PizzaListPage createdPizzas={createdPizzas} />
         ) : (
           <></>
         )}
