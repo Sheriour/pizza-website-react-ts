@@ -1,7 +1,15 @@
 import { Pizza } from "../Types";
 
 function CreatedPizzaListItem({ pizzaName, crust, ingredients }: Pizza) {
-  let innerMargins: string = "mt-3";
+  const getIngredientsString = (): string => {
+    let ingredientsString: string = "";
+    ingredients.map((x) =>
+      x.portion == 2
+        ? (ingredientsString += x.name + " (Double!), ")
+        : (ingredientsString += x.name + ", ")
+    );
+    return ingredientsString.substring(0, ingredientsString.length - 2);
+  };
 
   return (
     <div className="list-group-item justify-content-between mb-2">
@@ -13,16 +21,7 @@ function CreatedPizzaListItem({ pizzaName, crust, ingredients }: Pizza) {
           </span>
         </span>
 
-        <button
-          className="btn"
-          onClick={() => console.log}
-          style={{ padding: 0 }}
-        >
-          <img
-            src="./src/assets/x-icon.png"
-            style={{ width: "30px", height: "auto" }}
-          />
-        </button>
+        <button className="btn-close" onClick={() => console.log}></button>
       </span>
 
       <p className="mb-1">
@@ -30,8 +29,7 @@ function CreatedPizzaListItem({ pizzaName, crust, ingredients }: Pizza) {
       </p>
 
       <p className="mb-1">
-        <strong>Ingredients:</strong> Mozarella, Pepperoni, Mozarella,
-        Pepperoni, Mozarella, Pepperoni,{" "}
+        <strong>Ingredients:</strong> {getIngredientsString()}
       </p>
     </div>
   );

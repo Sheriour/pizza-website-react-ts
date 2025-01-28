@@ -2,13 +2,38 @@ import { useState } from "react";
 import "../styles/pizzaMain.css";
 import { Ingredient, Pizza } from "../Types";
 import { ChangeEvent } from "react";
+import { toast } from "react-toastify";
 
 type newPizzaPageProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
 };
 
+const defaultIngredients: Ingredient[] = [
+  {
+    id: 1,
+    name: "Pepperoni",
+    portion: 0,
+  },
+  {
+    id: 2,
+    name: "Mozarella",
+    portion: 0,
+  },
+  {
+    id: 3,
+    name: "Mixed Peppers",
+    portion: 0,
+  },
+];
+
 function NewPizzaPage({ onAddCreatedPizza }: newPizzaPageProps) {
   let innerMargins: string = "mt-3";
+
+  const [pizzaName, setPizzaName] = useState("");
+  const [selectedCrust, setSelectedCrust] = useState("");
+  const [ingredients, setIngredients] = useState<Ingredient[]>(
+    structuredClone(defaultIngredients)
+  );
 
   const handleCrustChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedCrust(event.target.value);
@@ -18,28 +43,40 @@ function NewPizzaPage({ onAddCreatedPizza }: newPizzaPageProps) {
     setPizzaName(event.target.value);
   };
 
-  const [pizzaName, setPizzaName] = useState("");
-  const [selectedCrust, setSelectedCrust] = useState("");
-  const [ingredients, setIngredients] = useState<Ingredient[]>([
-    {
-      id: 1,
-      name: "Pepperoni",
-      portion: 0,
-    },
-    {
-      id: 2,
-      name: "Mozarella",
-      portion: 0,
-    },
-    {
-      id: 3,
-      name: "Mixed Peppers",
-      portion: 0,
-    },
-  ]);
+  /**
+   * Clears the new pizza form
+   */
+  const clearForm = () => {
+    setPizzaName("");
+    setSelectedCrust("");
+    setIngredients(structuredClone(defaultIngredients));
+  };
 
   /**
-   * Saves created pizza to the list of created pizzas
+   * Creates a toast to inform that pizza was created
+   */
+  const toastCreationSuccess = () => {
+    toast.success("Pizza created!", {
+      position: "top-center",
+      autoClose: 3000,
+    });
+  };
+
+  /**
+   * Creates a toast to inform that pizza was not created because form was not filled
+   */
+  const toastCreationFailure = () => {
+    toast.error(
+      "A pizza needs to have a name, crust and at least 2 ingredients!",
+      {
+        position: "top-center",
+        autoClose: 3000,
+      }
+    );
+  };
+
+  /**
+   * Returns created pizza
    */
   const getCreatedPizza = (): Pizza => {
     return {
@@ -47,6 +84,21 @@ function NewPizzaPage({ onAddCreatedPizza }: newPizzaPageProps) {
       pizzaName: pizzaName,
       ingredients: ingredients.filter((x) => x.portion > 0),
     };
+  };
+
+  /**
+   *
+   * @returns true if pizza has a name, crust and at least 2 ingredients
+   */
+  const isCurrentPizzaValid = (): boolean => {
+    let pizza: Pizza = getCreatedPizza();
+    if (
+      pizza.crust === "" ||
+      pizza.pizzaName === "" ||
+      pizza.ingredients.length < 2
+    )
+      return false;
+    return true;
   };
 
   /**
@@ -84,6 +136,7 @@ function NewPizzaPage({ onAddCreatedPizza }: newPizzaPageProps) {
             className={"form-control "}
             placeholder="Pepperoni, Meat Lovers..."
             onChange={handleNameChange}
+            value={pizzaName}
           ></input>
         </div>
 
@@ -101,10 +154,10 @@ function NewPizzaPage({ onAddCreatedPizza }: newPizzaPageProps) {
             <option value="" disabled style={{ color: "grey" }}>
               Select crust
             </option>
-            <option value="thin" style={{ color: "black" }}>
+            <option value="Thin" style={{ color: "black" }}>
               Thin
             </option>
-            <option value="thick" style={{ color: "black" }}>
+            <option value="Thick" style={{ color: "black" }}>
               Thick
             </option>
           </select>
@@ -146,7 +199,13 @@ function NewPizzaPage({ onAddCreatedPizza }: newPizzaPageProps) {
 
         <div className={"text-center " + innerMargins}>
           <button
-            onClick={() => onAddCreatedPizza(getCreatedPizza())}
+            onClick={() => {
+              isCurrentPizzaValid()
+                ? (onAddCreatedPizza(getCreatedPizza()),
+                  clearForm(),
+                  toastCreationSuccess())
+                : toastCreationFailure();
+            }}
             type="button"
             className="btn btn-pizza-clickable"
             style={{ width: 200 }}

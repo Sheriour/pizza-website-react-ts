@@ -2,9 +2,12 @@ import { useState } from "react";
 import NewPizzaPage from "./NewPizzaPage";
 import PizzaListPage from "./PizzaListPage";
 import TopMenuButton from "./TopMenuButton";
+import Toast from "./Toast";
 import { Pizza } from "../Types";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function MainApp() {
   //Can be initial, newpizza, pizzalist
@@ -32,6 +35,8 @@ function MainApp() {
       className="container"
       style={{ maxWidth: 600, backgroundColor: "beige" }}
     >
+      <ToastContainer />
+
       {/*Header*/}
       <div className="row text-center border-bottom">
         <h1>Pizza Maker Deluxe</h1>

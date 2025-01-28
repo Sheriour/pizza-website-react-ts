@@ -16,6 +16,7 @@ function PizzaList({ createdPizzas }: PizzaListProps) {
         <div className="list-group" id="pizza-list">
           {createdPizzas.map((x) => (
             <CreatedPizzaListItem
+              key={x.pizzaName}
               pizzaName={x.pizzaName}
               crust={x.crust}
               ingredients={x.ingredients}
