@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Pepperoni",
+        "portion": 0,
+        "diet": "animal"
+      },
+      {
+        "id": 2,
+        "name": "Mozarella",
+        "portion": 0,
+        "diet": "vegetarian"
+      },
+      {
+        "id": 3,
+        "name": "Mixed Peppers",
+        "portion": 0,
+        "diet": "vegan"
+      },
+      {
+        "id": 4,
+        "name": "Chilli Peppers",
+        "portion": 0,
+        "diet": "vegan"
+      }
+  ]

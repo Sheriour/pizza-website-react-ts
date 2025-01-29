@@ -3,29 +3,15 @@ import "../styles/pizzaMain.css";
 import { Ingredient, Pizza } from "../Types";
 import { ChangeEvent } from "react";
 import { toast } from "react-toastify";
+import VegBadge from "./VegBadge";
+import ingredients from "../data/ingredients.json";
 
 type newPizzaPageProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
   currentPizzas: Pizza[];
 };
 
-const defaultIngredients: Ingredient[] = [
-  {
-    id: 1,
-    name: "Pepperoni",
-    portion: 0,
-  },
-  {
-    id: 2,
-    name: "Mozarella",
-    portion: 0,
-  },
-  {
-    id: 3,
-    name: "Mixed Peppers",
-    portion: 0,
-  },
-];
+const defaultIngredients = ingredients as Ingredient[];
 
 function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
   let innerMargins: string = "mt-3";
@@ -193,7 +179,10 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
                     : "")
                 }
               >
-                <span>{x.name}</span>
+                <span>
+                  {x.name} <VegBadge diet={x.diet}></VegBadge>
+                </span>
+
                 <span>
                   {x.portion === 1
                     ? "Single"

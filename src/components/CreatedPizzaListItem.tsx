@@ -1,4 +1,6 @@
 import { Pizza } from "../Types";
+import VegBadge from "./VegBadge";
+import { GetDietFromIngredientList } from "../utils/Utils";
 
 function CreatedPizzaListItem({ pizzaName, crust, ingredients }: Pizza) {
   const getIngredientsString = (): string => {
@@ -16,9 +18,8 @@ function CreatedPizzaListItem({ pizzaName, crust, ingredients }: Pizza) {
       <span className="justify-content-between d-flex">
         <span className="d-flex">
           <h5 className="mb-2 text-center">{pizzaName}</h5>
-          <span className="badge text-bg-success rounded-pill ms-1 mb-2">
-            V
-          </span>
+
+          <VegBadge diet={GetDietFromIngredientList(ingredients)}></VegBadge>
         </span>
 
         <button className="btn-close" onClick={() => console.log}></button>
