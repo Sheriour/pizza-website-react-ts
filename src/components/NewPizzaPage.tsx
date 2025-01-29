@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 type newPizzaPageProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
+  currentPizzas: Pizza[];
 };
 
 const defaultIngredients: Ingredient[] = [
@@ -26,7 +27,7 @@ const defaultIngredients: Ingredient[] = [
   },
 ];
 
-function NewPizzaPage({ onAddCreatedPizza }: newPizzaPageProps) {
+function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
   let innerMargins: string = "mt-3";
 
   const [pizzaName, setPizzaName] = useState("");
@@ -65,14 +66,11 @@ function NewPizzaPage({ onAddCreatedPizza }: newPizzaPageProps) {
   /**
    * Creates a toast to inform that pizza was not created because form was not filled
    */
-  const toastCreationFailure = () => {
-    toast.error(
-      "A pizza needs to have a name, crust and at least 2 ingredients!",
-      {
-        position: "top-center",
-        autoClose: 3000,
-      }
-    );
+  const toastCreationFailure = (failureText: string) => {
+    toast.error(failureText, {
+      position: "top-center",
+      autoClose: 3000,
+    });
   };
 
   /**
@@ -87,18 +85,29 @@ function NewPizzaPage({ onAddCreatedPizza }: newPizzaPageProps) {
   };
 
   /**
-   *
-   * @returns true if pizza has a name, crust and at least 2 ingredients
+   * Does all the pizza validation, including comparison to existing pizza names.
+   * Clears the form and adds pizza to collection if all checks pass.
    */
-  const isCurrentPizzaValid = (): boolean => {
+  const handlePizzaCreation = (
+    currentPizzas: Pizza[],
+    creationCallback: (pizzaParam: Pizza) => void
+  ): void => {
     let pizza: Pizza = getCreatedPizza();
-    if (
-      pizza.crust === "" ||
-      pizza.pizzaName === "" ||
-      pizza.ingredients.length < 2
-    )
-      return false;
-    return true;
+    if (pizza.pizzaName === "")
+      toastCreationFailure("Please provide a pizza name!");
+    else if (pizza.crust === "")
+      toastCreationFailure("Please select a crust type!");
+    else if (pizza.ingredients.length < 2)
+      toastCreationFailure("Please select at least 2 ingredients!");
+    else if (currentPizzas.some((x) => x.pizzaName === pizza.pizzaName)) {
+      toastCreationFailure(
+        "Pizza with name " + pizza.pizzaName + " already exists!"
+      );
+    } else {
+      creationCallback(pizza);
+      clearForm();
+      toastCreationSuccess();
+    }
   };
 
   /**
@@ -199,13 +208,9 @@ function NewPizzaPage({ onAddCreatedPizza }: newPizzaPageProps) {
 
         <div className={"text-center " + innerMargins}>
           <button
-            onClick={() => {
-              isCurrentPizzaValid()
-                ? (onAddCreatedPizza(getCreatedPizza()),
-                  clearForm(),
-                  toastCreationSuccess())
-                : toastCreationFailure();
-            }}
+            onClick={() =>
+              handlePizzaCreation(currentPizzas, onAddCreatedPizza)
+            }
             type="button"
             className="btn btn-pizza-clickable"
             style={{ width: 200 }}

@@ -2,7 +2,6 @@ import { useState } from "react";
 import NewPizzaPage from "./NewPizzaPage";
 import PizzaListPage from "./PizzaListPage";
 import TopMenuButton from "./TopMenuButton";
-import Toast from "./Toast";
 import { Pizza } from "../Types";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -62,7 +61,10 @@ function MainApp() {
 
         {/*Main App body*/}
         {appMode == "newpizza" ? (
-          <NewPizzaPage onAddCreatedPizza={onAddCreatedPizza} />
+          <NewPizzaPage
+            currentPizzas={createdPizzas}
+            onAddCreatedPizza={onAddCreatedPizza}
+          />
         ) : appMode == "pizzalist" ? (
           <PizzaListPage createdPizzas={createdPizzas} />
         ) : (
