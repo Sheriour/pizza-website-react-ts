@@ -1,10 +1,11 @@
 import { useState } from "react";
 import "../styles/pizzaMain.css";
-import { Ingredient, Pizza } from "../Types";
+import { Ingredient, Pizza, IngredientDiet } from "../Types";
 import { ChangeEvent } from "react";
 import { toast } from "react-toastify";
 import VegBadge from "./VegBadge";
 import ingredients from "../data/ingredients.json";
+import { IngredientMatchesDiet } from "../utils/Utils";
 
 type newPizzaPageProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
@@ -21,6 +22,8 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
   const [ingredients, setIngredients] = useState<Ingredient[]>(
     structuredClone(defaultIngredients)
   );
+  const [ingredientFilter, setIngredientFilter] =
+    useState<IngredientDiet>("animal");
 
   const handleCrustChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedCrust(event.target.value);
@@ -28,6 +31,12 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPizzaName(event.target.value);
+  };
+
+  const handleIngredientFilterChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    setIngredientFilter(event.target.value as IngredientDiet);
   };
 
   /**
@@ -144,7 +153,7 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
             className="form-select"
             value={selectedCrust}
             onChange={handleCrustChange}
-            style={{ color: selectedCrust ? "black" : "grey" }}
+            style={{ color: ingredientFilter ? "black" : "grey" }}
           >
             <option value="" disabled style={{ color: "grey" }}>
               Select crust
@@ -159,39 +168,57 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
         </div>
 
         <div className={"container " + innerMargins}>
-          <div className={"text-center "}>
-            <label htmlFor="ingredients">
-              Ingredients (click to add or change portion size)
-            </label>
-          </div>
+          <label htmlFor="ingredientsFilter">Ingredients</label>
+          <select
+            id="ingredientsFilter"
+            className="form-select"
+            value={ingredientFilter === "animal" ? "All" : ingredientFilter}
+            onChange={handleIngredientFilterChange}
+            style={{ color: ingredientFilter ? "black" : "grey" }}
+          >
+            <option value="animal" style={{ color: "black" }}>
+              All
+            </option>
+            <option value="vegetarian" style={{ color: "black" }}>
+              Vegetarian
+            </option>
+            <option value="vegan" style={{ color: "black" }}>
+              Vegan
+            </option>
+          </select>
 
-          <ul className="list-group" id="ingredients">
-            {ingredients.map((x) => (
-              <button
-                key={x.id}
-                onClick={() => handleIngredientSelect(x.id)}
-                className={
-                  "list-group-item d-flex justify-content-between " +
-                  (x.portion === 1
-                    ? "piz-ingredient-single"
-                    : x.portion === 2
-                    ? "piz-ingredient-double"
-                    : "")
-                }
-              >
-                <span>
-                  {x.name} <VegBadge diet={x.diet}></VegBadge>
-                </span>
+          <label htmlFor={"ingredients" + innerMargins}>
+            <small>Click an ingredient to add or change portion size</small>
+          </label>
+          <ul className="list-group " id="ingredients">
+            {ingredients
+              .filter((x) => IngredientMatchesDiet(x, ingredientFilter))
+              .map((x) => (
+                <button
+                  key={x.id}
+                  onClick={() => handleIngredientSelect(x.id)}
+                  className={
+                    "list-group-item d-flex justify-content-between " +
+                    (x.portion === 1
+                      ? "piz-ingredient-single"
+                      : x.portion === 2
+                      ? "piz-ingredient-double"
+                      : "")
+                  }
+                >
+                  <span>
+                    {x.name} <VegBadge diet={x.diet}></VegBadge>
+                  </span>
 
-                <span>
-                  {x.portion === 1
-                    ? "Single"
-                    : x.portion === 2
-                    ? "Double!"
-                    : ""}
-                </span>
-              </button>
-            ))}
+                  <span>
+                    {x.portion === 1
+                      ? "Single"
+                      : x.portion === 2
+                      ? "Double!"
+                      : ""}
+                  </span>
+                </button>
+              ))}
           </ul>
         </div>
 
