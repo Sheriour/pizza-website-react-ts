@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "../styles/pizzaMain.css";
-import { Ingredient, Pizza, IngredientDiet } from "../Types";
+import { Ingredient, Pizza, IngredientDiet, IngredientType } from "../Types";
 import { ChangeEvent } from "react";
 import { toast } from "react-toastify";
 import VegBadge from "./VegBadge";
 import ingredients from "../data/ingredients.json";
 import { IngredientMatchesDiet } from "../utils/Utils";
+import IngredientFilterDropdown from "./IngredientFilterDropdown";
 
 type newPizzaPageProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
@@ -22,8 +23,10 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
   const [ingredients, setIngredients] = useState<Ingredient[]>(
     structuredClone(defaultIngredients)
   );
-  const [ingredientFilter, setIngredientFilter] =
+  const [ingredientDietFilter, setIngredientDietFilter] =
     useState<IngredientDiet>("animal");
+  const [ingredientTypeFilter, setIngredientTypeFilter] =
+    useState<IngredientType>("all");
 
   const handleCrustChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedCrust(event.target.value);
@@ -33,10 +36,16 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
     setPizzaName(event.target.value);
   };
 
-  const handleIngredientFilterChange = (
+  const handleIngredientDietFilterChange = (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
-    setIngredientFilter(event.target.value as IngredientDiet);
+    setIngredientDietFilter(event.target.value as IngredientDiet);
+  };
+
+  const handleIngredientTypeFilterChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    setIngredientTypeFilter(event.target.value as IngredientType);
   };
 
   /**
@@ -119,7 +128,11 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
           return {
             ...ingredient,
             portion:
-              ingredient.portion === 0 ? 1 : ingredient.portion === 1 ? 2 : 0,
+              ingredient.portion === 0 || ingredient.portion === undefined
+                ? 1
+                : ingredient.portion === 1
+                ? 2
+                : 0,
           };
         }
         return ingredient;
@@ -146,14 +159,14 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
 
         <div className={"container " + innerMargins}>
           <label htmlFor="crustDropdown" className="form-label mb-0">
-            Select Crust
+            Crust
           </label>
           <select
             id="crustDropdown"
             className="form-select"
             value={selectedCrust}
             onChange={handleCrustChange}
-            style={{ color: ingredientFilter ? "black" : "grey" }}
+            style={{ color: ingredientDietFilter ? "black" : "grey" }}
           >
             <option value="" disabled style={{ color: "grey" }}>
               Select crust
@@ -168,31 +181,32 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
         </div>
 
         <div className={"container " + innerMargins}>
-          <label htmlFor="ingredientsFilter">Ingredients</label>
-          <select
-            id="ingredientsFilter"
-            className="form-select"
-            value={ingredientFilter === "animal" ? "All" : ingredientFilter}
-            onChange={handleIngredientFilterChange}
-            style={{ color: ingredientFilter ? "black" : "grey" }}
-          >
-            <option value="animal" style={{ color: "black" }}>
-              All
-            </option>
-            <option value="vegetarian" style={{ color: "black" }}>
-              Vegetarian
-            </option>
-            <option value="vegan" style={{ color: "black" }}>
-              Vegan
-            </option>
-          </select>
+          <h5 className="text-center">Ingredients</h5>
+          <IngredientFilterDropdown
+            label="Filter by vegan or vegetarian"
+            stateList={["animal", "vegetarian", "vegan"]}
+            stateUpdateFunction={handleIngredientDietFilterChange}
+            stateVar={ingredientDietFilter}
+          ></IngredientFilterDropdown>
 
-          <label htmlFor={"ingredients" + innerMargins}>
+          <IngredientFilterDropdown
+            label="Filter by type"
+            stateList={["all", "sauce", "cheese", "meat", "vegetable"]}
+            stateUpdateFunction={handleIngredientTypeFilterChange}
+            stateVar={ingredientTypeFilter}
+          ></IngredientFilterDropdown>
+
+          <label htmlFor="ingredients">
             <small>Click an ingredient to add or change portion size</small>
           </label>
           <ul className="list-group " id="ingredients">
             {ingredients
-              .filter((x) => IngredientMatchesDiet(x, ingredientFilter))
+              .filter(
+                (x) =>
+                  IngredientMatchesDiet(x, ingredientDietFilter) &&
+                  (ingredientTypeFilter === "all" ||
+                    x.type === ingredientTypeFilter)
+              )
               .map((x) => (
                 <button
                   key={x.id}
