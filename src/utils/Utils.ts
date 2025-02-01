@@ -18,3 +18,27 @@ export function IngredientMatchesDiet(ingredient: Ingredient, diet: IngredientDi
     //Default route
     return false;
 }
+
+export function CompareIngredientsAlphabetically(a: Ingredient, b: Ingredient) {
+    if ( a.name < b.name ){
+      return -1;
+    }
+    if ( a.name > b.name ){
+      return 1;
+    }
+    return 0;
+  }
+
+  export function CompareIngredientsByType(a: Ingredient, b: Ingredient) {
+    if ( a.type === "sauce" ){
+      return -1;
+    }
+    if ( a.type === "cheese" && b.type !== "sauce"){
+        return -1;
+      }
+      if (a.type === "meat" || a.type === "plant"){
+        return 1;
+      }
+   
+return 0;
+  }

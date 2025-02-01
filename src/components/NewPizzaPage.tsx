@@ -7,6 +7,7 @@ import VegBadge from "./VegBadge";
 import ingredients from "../data/ingredients.json";
 import { IngredientMatchesDiet } from "../utils/Utils";
 import IngredientFilterDropdown from "./IngredientFilterDropdown";
+import { CompareIngredientsAlphabetically } from "../utils/Utils";
 
 type newPizzaPageProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
@@ -191,7 +192,7 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
 
           <IngredientFilterDropdown
             label="Filter by type"
-            stateList={["all", "sauce", "cheese", "meat", "vegetable"]}
+            stateList={["all", "sauce", "cheese", "meat", "plant"]}
             stateUpdateFunction={handleIngredientTypeFilterChange}
             stateVar={ingredientTypeFilter}
           ></IngredientFilterDropdown>
@@ -207,6 +208,7 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
                   (ingredientTypeFilter === "all" ||
                     x.type === ingredientTypeFilter)
               )
+              .sort(CompareIngredientsAlphabetically)
               .map((x) => (
                 <button
                   key={x.id}

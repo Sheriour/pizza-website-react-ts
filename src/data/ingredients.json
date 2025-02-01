@@ -6,11 +6,53 @@
   "type": "sauce"
   },
   {
+    "id": 2,
+    "name": "BBQ Sauce",
+    "diet": "vegan",
+    "type": "sauce"
+    },
+    {
+      "id": 3,
+      "name": "Cheese Sauce",
+      "diet": "vegetarian",
+      "type": "sauce"
+      },
+  {
   "id": 100,
   "name": "Pepperoni",
   "diet": "animal",
   "type": "meat"
   },
+  {
+    "id": 101,
+    "name": "Ground Beef",
+    "diet": "animal",
+    "type": "meat"
+    },
+    {
+      "id": 102,
+      "name": "Bacon",
+      "diet": "animal",
+      "type": "meat"
+      },
+      {
+        "id": 103,
+        "name": "Chicken",
+        "diet": "animal",
+        "type": "meat"
+        },
+        {
+          "id": 104,
+          "name": "Tuna",
+          "diet": "animal",
+          "type": "meat"
+          },
+          {
+            "id": 105,
+            "name": "Ham",
+            "diet": "animal",
+            "type": "meat"
+            },
   {
   "id": 200,
   "name": "Mozarella",
@@ -18,15 +60,63 @@
   "type": "cheese"
   },
   {
+    "id": 201,
+    "name": "Cheddar",
+    "diet": "vegetarian",
+    "type": "cheese"
+    },
+    {
+      "id": 202,
+      "name": "Vegan Cheeze",
+      "diet": "vegan",
+      "type": "cheese"
+      },
+  {
   "id": 300,
   "name": "Mixed Peppers",
   "diet": "vegan",
-  "type": "vegetable"
+  "type": "plant"
   },
   {
   "id": 301,
   "name": "Chilli Peppers",
   "diet": "vegan",
-  "type": "vegetable"
-  }
+  "type": "plant"
+  },
+  {
+    "id": 302,
+    "name": "Onions",
+    "diet": "vegan",
+    "type": "plant"
+    },
+    {
+      "id": 303,
+      "name": "Tomatoes",
+      "diet": "vegan",
+      "type": "plant"
+      },
+      {
+        "id": 304,
+        "name": "Sweetcorn",
+        "diet": "vegan",
+        "type": "plant"
+        },
+              {
+          "id": 305,
+          "name": "Pineapple",
+          "diet": "vegan",
+          "type": "plant"
+          },
+          {
+            "id": 306,
+            "name": "Olives",
+            "diet": "vegan",
+            "type": "plant"
+            },
+            {
+              "id": 307,
+              "name": "Gherkins",
+              "diet": "vegan",
+              "type": "plant"
+              }
   ]

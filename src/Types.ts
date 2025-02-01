@@ -8,7 +8,7 @@ export type Ingredient = {
 
 export type IngredientDiet = "animal" | "vegetarian" | "vegan";
 
-export type IngredientType = "all" | "sauce" | "cheese" | "meat" | "vegetable"
+export type IngredientType = "all" | "sauce" | "cheese" | "meat" | "plant";
 
 export type Pizza = {
     pizzaName: string;

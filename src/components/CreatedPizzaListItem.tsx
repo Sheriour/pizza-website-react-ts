@@ -1,15 +1,20 @@
 import { Pizza } from "../Types";
 import VegBadge from "./VegBadge";
-import { GetDietFromIngredientList } from "../utils/Utils";
+import {
+  GetDietFromIngredientList,
+  CompareIngredientsByType,
+} from "../utils/Utils";
 
 function CreatedPizzaListItem({ pizzaName, crust, ingredients }: Pizza) {
   const getIngredientsString = (): string => {
     let ingredientsString: string = "";
-    ingredients.map((x) =>
-      x.portion == 2
-        ? (ingredientsString += x.name + " (Double!), ")
-        : (ingredientsString += x.name + ", ")
-    );
+    ingredients
+      .sort(CompareIngredientsByType)
+      .map((x) =>
+        x.portion == 2
+          ? (ingredientsString += x.name + " (Double!), ")
+          : (ingredientsString += x.name + ", ")
+      );
     return ingredientsString.substring(0, ingredientsString.length - 2);
   };
 
