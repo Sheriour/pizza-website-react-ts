@@ -1,10 +1,11 @@
 import "../styles/pizzaMain.css";
+import { AppMode } from "../Types";
 
 type topMenuButtonProps = {
-  buttonIdentifier: string;
+  buttonIdentifier: AppMode;
   currentAppMode: string;
   buttonText: string;
-  onClick: (anewAppMode: string) => void;
+  onClick: (anewAppMode: AppMode) => void;
 };
 
 function TopMenuButton({

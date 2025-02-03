@@ -15,3 +15,5 @@ export type Pizza = {
     crust: string;
     ingredients: Ingredient[];
 }
+
+export type AppMode = "initial" | "newpizza" | "pizzalist" | "pizzagenerator";

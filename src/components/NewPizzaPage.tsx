@@ -8,6 +8,7 @@ import ingredients from "../data/ingredients.json";
 import { IngredientMatchesDiet } from "../utils/Utils";
 import IngredientFilterDropdown from "./IngredientFilterDropdown";
 import { CompareIngredientsAlphabetically } from "../utils/Utils";
+import SimpleButton from "./SimpleButton";
 
 type newPizzaPageProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
@@ -237,18 +238,14 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
               ))}
           </ul>
         </div>
-
-        <div className={"text-center " + innerMargins}>
-          <button
-            onClick={() =>
+        <div className={"container " + innerMargins}>
+          {" "}
+          <SimpleButton
+            buttonText="Create"
+            handleOnClick={() =>
               handlePizzaCreation(currentPizzas, onAddCreatedPizza)
             }
-            type="button"
-            className="btn btn-pizza-clickable"
-            style={{ width: 200 }}
-          >
-            Create
-          </button>
+          ></SimpleButton>{" "}
         </div>
       </div>
     </>
