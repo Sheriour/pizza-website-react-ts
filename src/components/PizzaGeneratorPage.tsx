@@ -1,5 +1,5 @@
 import { Pizza } from "../Types";
-import { GetRandomArrayElement } from "../utils/Utils";
+import { GeneratePizza } from "../utils/PizzaGenerator";
 import SimpleButton from "./SimpleButton";
 
 type PizzaGeneratorProps = {
@@ -14,7 +14,7 @@ function PizzaGeneratorPage({
   let innerMargins: string = "mt-3";
 
   const handleGenerateAdd = () => {
-    console.log(GetRandomArrayElement(["a", "b", "c"]));
+    console.log(GeneratePizza(currentPizzas));
   };
 
   onAddCreatedPizza;
