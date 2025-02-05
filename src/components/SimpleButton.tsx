@@ -10,17 +10,15 @@ export default function SimpleButton({
   return (
     <>
       <div className="col">
-        <div className="row">
-          <div className="text-center">
-            <button
-              onClick={handleOnClick}
-              type="button"
-              className="btn btn-pizza-clickable col"
-              style={{ width: 200 }}
-            >
-              {buttonText}
-            </button>
-          </div>
+        <div className="text-center">
+          <button
+            onClick={handleOnClick}
+            type="button"
+            className="btn btn-pizza-clickable col"
+            style={{ width: 200 }}
+          >
+            {buttonText}
+          </button>
         </div>
       </div>
     </>

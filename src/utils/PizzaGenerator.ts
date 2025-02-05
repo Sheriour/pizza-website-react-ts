@@ -1,4 +1,4 @@
-import { Ingredient, Pizza } from "../Types";
+import { Ingredient, NullablePizza, Pizza } from "../Types";
 import { GetRandomArrayElement, GetRandomArrayElements } from "./Utils";
 import ingredients from "../data/ingredients.json";
 
@@ -67,12 +67,23 @@ const secondNamePart = [
   "Paradise",
 ];
 
-export function GeneratePizza(currentPizzas: Pizza[]): Pizza {
-  return {
-    crust: GetRandomArrayElement(crustTypes),
-    pizzaName: GenerateUniquePizzaName(currentPizzas.map((x) => x.pizzaName)),
-    ingredients: GeneratePizzaIngredients(),
-  };
+/**
+ * Genereates a random pizza with a unique random name
+ *
+ * @param currentPizzas The list of all current pizzas
+ * @returns             A randomly generated pizza
+ */
+export function GeneratePizza(currentPizzas: Pizza[]): NullablePizza {
+  const name: string = GenerateUniquePizzaName(
+    currentPizzas.map((x) => x.pizzaName)
+  );
+  if (name !== "") {
+    return {
+      crust: GetRandomArrayElement(crustTypes),
+      pizzaName: name,
+      ingredients: GeneratePizzaIngredients(),
+    };
+  } else return null;
 }
 
 function GeneratePizzaIngredients(): Ingredient[] {
@@ -106,14 +117,16 @@ function GenerateUniquePizzaName(currentNames: string[]): string {
   let retries = 0;
 
   let newName = GeneratePizzaName();
-  while (currentNames.includes(newName) && retries < 10) {
+  while (currentNames.includes(newName) && retries < maxRetries) {
     retries++;
     newName = GeneratePizzaName();
   }
-  if (retries === 10)
+  if (retries === 10) {
     console.error(
       "Reached 10 retries while trying to generate a unique pizza name. Bailing out."
     );
+    return "";
+  }
 
   return newName;
 }

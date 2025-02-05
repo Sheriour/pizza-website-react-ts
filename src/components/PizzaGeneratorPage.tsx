@@ -1,4 +1,5 @@
-import { Pizza } from "../Types";
+import { ChangeEvent, SetStateAction, useState } from "react";
+import { NullablePizza, Pizza } from "../Types";
 import { GeneratePizza } from "../utils/PizzaGenerator";
 import SimpleButton from "./SimpleButton";
 
@@ -13,12 +14,21 @@ function PizzaGeneratorPage({
 }: PizzaGeneratorProps) {
   let innerMargins: string = "mt-3";
 
-  const handleGenerateAdd = () => {
-    console.log(GeneratePizza(currentPizzas));
+  const [generateCount, setGenerateCount] = useState(1);
+
+  const handleGenerateCountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setGenerateCount(+e.currentTarget.value);
   };
 
-  onAddCreatedPizza;
-  currentPizzas;
+  const handleGenerateAdd = (count: number) => {
+    let generatedPizza: NullablePizza = null;
+    for (let i = 0; i < count; i++) {
+      generatedPizza = GeneratePizza(currentPizzas);
+      if (generatedPizza !== null) {
+        onAddCreatedPizza(generatedPizza as Pizza);
+      }
+    }
+  };
 
   return (
     <>
@@ -26,9 +36,31 @@ function PizzaGeneratorPage({
         <h4 className={"text-center mt-3"}>Pizza Generator</h4>
 
         <div className={"container row " + innerMargins}>
+          <label htmlFor="pizzaNameInput">How many pizzas to generate?</label>
+          <input
+            id="pizzaCountInput"
+            type="number"
+            min="1"
+            max="10"
+            className={"form-control "}
+            onChange={handleGenerateCountChange}
+            value={generateCount}
+          ></input>
+
+          <label htmlFor="pizzaNameInput">Should pizzas follow a diet?</label>
+          <input
+            id="pizzaDietInput"
+            type="text"
+            className={"form-control "}
+            onChange={handleGenerateCountChange}
+            value={generateCount}
+          ></input>
+        </div>
+
+        <div className={"container row " + innerMargins}>
           <SimpleButton
             buttonText="Generate & Add"
-            handleOnClick={handleGenerateAdd}
+            handleOnClick={() => handleGenerateAdd(generateCount)}
           ></SimpleButton>
           <SimpleButton
             buttonText="Generate & Preview"
