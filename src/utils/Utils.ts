@@ -1,4 +1,4 @@
-import { IngredientDiet, Ingredient, Pizza } from "../Types";
+import { IngredientDiet, Ingredient } from "../Types";
 
 /**
  * Judge overall diet of a list of ingredients (eg. if the list has at least one meat item, it will return "animal")
