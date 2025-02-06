@@ -1,18 +1,18 @@
 import { ChangeEvent } from "react";
 
-type IngredientFilterDropdownProps = {
+type PizzaAppDropdownProps = {
   label: string;
   stateList: string[];
   stateVar: string;
   stateUpdateFunction: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
 
-function IngredientFilterDropdown({
+function PizzaAppDropdown({
   label,
   stateList,
   stateVar,
   stateUpdateFunction,
-}: IngredientFilterDropdownProps) {
+}: PizzaAppDropdownProps) {
   return (
     <>
       <label htmlFor="ingredientsFilter">
@@ -37,4 +37,4 @@ function IngredientFilterDropdown({
   );
 }
 
-export default IngredientFilterDropdown;
+export default PizzaAppDropdown;

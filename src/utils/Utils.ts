@@ -9,7 +9,7 @@ import { IngredientDiet, Ingredient, Pizza } from "../Types";
 export function GetDietFromIngredientList(
   ingredients: Ingredient[]
 ): IngredientDiet {
-  if (ingredients.some((x) => x.diet === "animal")) return "animal";
+  if (ingredients.some((x) => x.diet === "all")) return "all";
   if (ingredients.some((x) => x.diet === "vegetarian")) return "vegetarian";
   return "vegan";
 }
@@ -26,7 +26,7 @@ export function IngredientMatchesDiet(
   diet: IngredientDiet
 ): boolean {
   //Anything goes if this is chosen
-  if (diet === "animal") return true;
+  if (diet === "all") return true;
 
   //For vegan and vegetarian, we compare score
   let score: number =

@@ -10,7 +10,7 @@ function VegBadge({ diet }: VegBadgeProps) {
 
   return (
     <>
-      {diet != "animal" ? (
+      {diet != "all" ? (
         <span className="badge text-bg-success rounded-pill ms-1 mb-2">
           {badgeText}
         </span>

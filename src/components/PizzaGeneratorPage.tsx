@@ -1,7 +1,8 @@
-import { ChangeEvent, SetStateAction, useState } from "react";
-import { NullablePizza, Pizza } from "../Types";
+import { ChangeEvent, useState } from "react";
+import { IngredientDiet, NullablePizza, Pizza } from "../Types";
 import { GeneratePizza } from "../utils/PizzaGenerator";
 import SimpleButton from "./SimpleButton";
+import PizzaAppDropdown from "./PizzaAppDropdown";
 
 type PizzaGeneratorProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
@@ -15,15 +16,20 @@ function PizzaGeneratorPage({
   let innerMargins: string = "mt-3";
 
   const [generateCount, setGenerateCount] = useState(1);
+  const [pizzaDiet, setPizzaDiet] = useState<IngredientDiet>("all");
 
   const handleGenerateCountChange = (e: ChangeEvent<HTMLInputElement>) => {
     setGenerateCount(+e.currentTarget.value);
   };
 
+  const handlePizzaTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setPizzaDiet(e.currentTarget.value as IngredientDiet);
+  };
+
   const handleGenerateAdd = (count: number) => {
     let generatedPizza: NullablePizza = null;
     for (let i = 0; i < count; i++) {
-      generatedPizza = GeneratePizza(currentPizzas);
+      generatedPizza = GeneratePizza(currentPizzas, pizzaDiet);
       if (generatedPizza !== null) {
         onAddCreatedPizza(generatedPizza as Pizza);
       }
@@ -47,14 +53,12 @@ function PizzaGeneratorPage({
             value={generateCount}
           ></input>
 
-          <label htmlFor="pizzaNameInput">Should pizzas follow a diet?</label>
-          <input
-            id="pizzaDietInput"
-            type="text"
-            className={"form-control "}
-            onChange={handleGenerateCountChange}
-            value={generateCount}
-          ></input>
+          <PizzaAppDropdown
+            label="What kind of pizzas?"
+            stateList={["all", "vegetarian", "vegan"]}
+            stateUpdateFunction={handlePizzaTypeChange}
+            stateVar={pizzaDiet}
+          ></PizzaAppDropdown>
         </div>
 
         <div className={"container row " + innerMargins}>

@@ -6,7 +6,7 @@ export type Ingredient = {
   type: IngredientType;
 };
 
-export type IngredientDiet = "animal" | "vegetarian" | "vegan";
+export type IngredientDiet = "all" | "vegetarian" | "vegan";
 
 export type IngredientType = "all" | "sauce" | "cheese" | "meat" | "plant";
 

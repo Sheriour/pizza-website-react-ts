@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import "../styles/pizzaMain.css";
 import { Ingredient, Pizza, IngredientDiet, IngredientType } from "../Types";
-import { ChangeEvent } from "react";
 import { toast } from "react-toastify";
 import VegBadge from "./VegBadge";
 import ingredients from "../data/ingredients.json";
-import { IngredientMatchesDiet } from "../utils/Utils";
-import IngredientFilterDropdown from "./IngredientFilterDropdown";
-import { CompareIngredientsAlphabetically } from "../utils/Utils";
+import {
+  IngredientMatchesDiet,
+  CompareIngredientsAlphabetically,
+} from "../utils/Utils";
+import PizzaAppDropdown from "./PizzaAppDropdown";
 import SimpleButton from "./SimpleButton";
 
 type newPizzaPageProps = {
@@ -26,7 +27,7 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
     structuredClone(defaultIngredients)
   );
   const [ingredientDietFilter, setIngredientDietFilter] =
-    useState<IngredientDiet>("animal");
+    useState<IngredientDiet>("all");
   const [ingredientTypeFilter, setIngredientTypeFilter] =
     useState<IngredientType>("all");
 
@@ -184,19 +185,19 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
 
         <div className={"container " + innerMargins}>
           <h5 className="text-center">Ingredients</h5>
-          <IngredientFilterDropdown
+          <PizzaAppDropdown
             label="Filter by vegan or vegetarian"
-            stateList={["animal", "vegetarian", "vegan"]}
+            stateList={["all", "vegetarian", "vegan"]}
             stateUpdateFunction={handleIngredientDietFilterChange}
             stateVar={ingredientDietFilter}
-          ></IngredientFilterDropdown>
+          ></PizzaAppDropdown>
 
-          <IngredientFilterDropdown
+          <PizzaAppDropdown
             label="Filter by type"
             stateList={["all", "sauce", "cheese", "meat", "plant"]}
             stateUpdateFunction={handleIngredientTypeFilterChange}
             stateVar={ingredientTypeFilter}
-          ></IngredientFilterDropdown>
+          ></PizzaAppDropdown>
 
           <label htmlFor="ingredients">
             <small>Click an ingredient to add or change portion size</small>
