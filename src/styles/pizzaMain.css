@@ -52,3 +52,7 @@ label {
     transition: 0.7s;
 }
 
+.btn-close-custom {
+    filter: invert(0.4) sepia(1) 
+    saturate(100) hue-rotate(350deg);
+}

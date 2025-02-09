@@ -1,7 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import "../styles/pizzaMain.css";
 import { Ingredient, Pizza, IngredientDiet, IngredientType } from "../Types";
-import { toast } from "react-toastify";
 import VegBadge from "./VegBadge";
 import ingredients from "../data/ingredients.json";
 import {
@@ -10,6 +9,7 @@ import {
 } from "../utils/Utils";
 import PizzaAppDropdown from "./PizzaAppDropdown";
 import SimpleButton from "./SimpleButton";
+import { ToastFailure, ToastSuccess } from "../utils/PizzaToast";
 
 type newPizzaPageProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
@@ -61,26 +61,6 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
   };
 
   /**
-   * Creates a toast to inform that pizza was created
-   */
-  const toastCreationSuccess = () => {
-    toast.success("Pizza created!", {
-      position: "top-center",
-      autoClose: 3000,
-    });
-  };
-
-  /**
-   * Creates a toast to inform that pizza was not created because form was not filled
-   */
-  const toastCreationFailure = (failureText: string) => {
-    toast.error(failureText, {
-      position: "top-center",
-      autoClose: 3000,
-    });
-  };
-
-  /**
    * Returns created pizza
    */
   const getCreatedPizza = (): Pizza => {
@@ -100,25 +80,21 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
     creationCallback: (pizzaParam: Pizza) => void
   ): void => {
     let pizza: Pizza = getCreatedPizza();
-    if (pizza.pizzaName === "")
-      toastCreationFailure("Please provide a pizza name!");
-    else if (pizza.crust === "")
-      toastCreationFailure("Please select a crust type!");
+    if (pizza.pizzaName === "") ToastFailure("Please provide a pizza name!");
+    else if (pizza.crust === "") ToastFailure("Please select a crust type!");
     else if (pizza.ingredients.length < 2)
-      toastCreationFailure("Please select at least 2 ingredients!");
+      ToastFailure("Please select at least 2 ingredients!");
     else if (currentPizzas.some((x) => x.pizzaName === pizza.pizzaName)) {
-      toastCreationFailure(
-        "Pizza with name " + pizza.pizzaName + " already exists!"
-      );
+      ToastFailure("Pizza with name " + pizza.pizzaName + " already exists!");
     } else {
       creationCallback(pizza);
       clearForm();
-      toastCreationSuccess();
+      ToastSuccess("Pizza created!");
     }
   };
 
   /**
-   * Handles ingredient selection. Ingredients will cycle between 0/1/2 values.
+   * Ingredient selection logic. Ingredients will cycle between 0/1/2 values.
    *
    * @param ingredientId Id of the ingredient being modified
    */

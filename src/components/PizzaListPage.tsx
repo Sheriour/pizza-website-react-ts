@@ -3,9 +3,10 @@ import CreatedPizzaListItem from "./CreatedPizzaListItem";
 
 type PizzaListProps = {
   createdPizzas: Pizza[];
+  onDeletePizza: () => void;
 };
 
-function PizzaList({ createdPizzas }: PizzaListProps) {
+function PizzaList({ createdPizzas, onDeletePizza }: PizzaListProps) {
   return (
     <>
       <div className="container border mt-2 pb-3">
@@ -16,9 +17,8 @@ function PizzaList({ createdPizzas }: PizzaListProps) {
             {createdPizzas.map((x) => (
               <CreatedPizzaListItem
                 key={x.pizzaName}
-                pizzaName={x.pizzaName}
-                crust={x.crust}
-                ingredients={x.ingredients}
+                pizza={x}
+                handleDelete={onDeletePizza}
               ></CreatedPizzaListItem>
             ))}
           </div>

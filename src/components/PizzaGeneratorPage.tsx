@@ -3,6 +3,7 @@ import { IngredientDiet, NullablePizza, Pizza } from "../Types";
 import { GeneratePizza } from "../utils/PizzaGenerator";
 import SimpleButton from "./SimpleButton";
 import PizzaAppDropdown from "./PizzaAppDropdown";
+import { ToastSuccess } from "../utils/PizzaToast";
 
 type PizzaGeneratorProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
@@ -27,12 +28,19 @@ function PizzaGeneratorPage({
   };
 
   const handleGenerateAdd = (count: number) => {
+    let generatedPizzaCount: number = 0;
+
     let generatedPizza: NullablePizza = null;
     for (let i = 0; i < count; i++) {
       generatedPizza = GeneratePizza(currentPizzas, pizzaDiet);
       if (generatedPizza !== null) {
         onAddCreatedPizza(generatedPizza as Pizza);
+        generatedPizzaCount++;
       }
+    }
+    if (generateCount > 0) {
+      if (generateCount == 1) ToastSuccess("Generated one pizza.");
+      else ToastSuccess("Generated " + generateCount + " pizzas.");
     }
   };
 

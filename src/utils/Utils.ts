@@ -54,6 +54,13 @@ export function CompareIngredientsAlphabetically(a: Ingredient, b: Ingredient) {
   return 0;
 }
 
+/**
+ * Comparer function to sort ingredients by type
+ *
+ * @param a First ingredient
+ * @param b Second ingredient
+ * @returns Comparison result
+ */
 export function CompareIngredientsByType(a: Ingredient, b: Ingredient) {
   if (a.type === "sauce") {
     return -1;

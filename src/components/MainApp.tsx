@@ -25,8 +25,12 @@ function MainApp() {
       ...previousCreatedPizzas,
       newPizza,
     ]);
+  };
 
-    console.log(createdPizzas);
+  const onDeletePizza = (pizza: Pizza) => {
+    setCreatedPizzas((previousCreatedPizzas) => [
+      ...previousCreatedPizzas.filter((x) => x.pizzaName !== pizza.pizzaName),
+    ]);
   };
 
   return (
@@ -76,7 +80,10 @@ function MainApp() {
           onAddCreatedPizza={onAddCreatedPizza}
         />
       ) : appMode == "pizzalist" ? (
-        <PizzaListPage createdPizzas={createdPizzas} />
+        <PizzaListPage
+          createdPizzas={createdPizzas}
+          onDeletePizza={onDeletePizza}
+        />
       ) : appMode == "pizzagenerator" ? (
         <PizzaGeneratorPage
           onAddCreatedPizza={onAddCreatedPizza}
