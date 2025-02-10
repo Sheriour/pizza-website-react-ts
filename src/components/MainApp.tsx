@@ -42,7 +42,7 @@ function MainApp() {
       <ToastContainer />
 
       {/*Header*/}
-      <div className="row text-center border-bottom">
+      <div className="row text-center border-bottom py-3">
         <h1>Pizza Maker Deluxe</h1>
       </div>
 

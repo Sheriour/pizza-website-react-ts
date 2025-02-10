@@ -1,7 +1,7 @@
 import { IngredientDiet, Ingredient } from "../Types";
 
 /**
- * Judge overall diet of a list of ingredients (eg. if the list has at least one meat item, it will return "animal")
+ * Judge overall diet of a list of ingredients (eg. if the list has at least one meat item, it will return "all")
  *
  * @param ingredients List of ingredients
  * @returns           Overall diet of the ingredients
@@ -9,9 +9,11 @@ import { IngredientDiet, Ingredient } from "../Types";
 export function GetDietFromIngredientList(
   ingredients: Ingredient[]
 ): IngredientDiet {
+  console.log(ingredients);
   if (ingredients.some((x) => x.diet === "all")) return "all";
-  if (ingredients.some((x) => x.diet === "vegetarian")) return "vegetarian";
-  return "vegan";
+  else if (ingredients.some((x) => x.diet === "vegetarian"))
+    return "vegetarian";
+  else return "vegan";
 }
 
 /**
