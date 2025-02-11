@@ -19,7 +19,9 @@ function PizzaGeneratorPage({
 
   const [generateCount, setGenerateCount] = useState(1);
   const [pizzaDiet, setPizzaDiet] = useState<IngredientDiet>("all");
-  const [generatedPizzas, setGeneratedPizzas] = useState<Pizza[]>([]);
+  const [generatedPreviewPizzas, setgeneratedPreviewPizzas] = useState<Pizza[]>(
+    []
+  );
 
   const handleGenerateCountChange = (e: ChangeEvent<HTMLInputElement>) => {
     let count: number = +e.currentTarget.value;
@@ -33,16 +35,22 @@ function PizzaGeneratorPage({
   };
 
   const handleDeletePizza = (pizza: Pizza) => {
-    setGeneratedPizzas((previousGeneratedPizzas) => [
-      ...previousGeneratedPizzas.filter((x) => x.pizzaName !== pizza.pizzaName),
+    setgeneratedPreviewPizzas((previousgeneratedPreviewPizzas) => [
+      ...previousgeneratedPreviewPizzas.filter(
+        (x) => x.pizzaName !== pizza.pizzaName
+      ),
     ]);
   };
 
   const handleAddGeneratedPizzaToPreview = (newPizza: Pizza) => {
-    setGeneratedPizzas((previousGeneratedPizzas) => [
-      ...previousGeneratedPizzas,
+    setgeneratedPreviewPizzas((previousgeneratedPreviewPizzas) => [
+      ...previousgeneratedPreviewPizzas,
       newPizza,
     ]);
+  };
+
+  const clearPreviewPizas = () => {
+    setgeneratedPreviewPizzas([]);
   };
 
   const handleGenerateWithCallback = (
@@ -63,6 +71,13 @@ function PizzaGeneratorPage({
       if (generateCount == 1) ToastSuccess("Generated one pizza.");
       else ToastSuccess("Generated " + generateCount + " pizzas.");
     }
+  };
+
+  const handleAddAllPreviewToArchive = () => {
+    let count = generatedPreviewPizzas.length;
+    for (const pizza of generatedPreviewPizzas) onAddCreatedPizza(pizza);
+    clearPreviewPizas();
+    ToastSuccess("Added " + count + " pizzas to Archive.");
   };
 
   return (
@@ -90,44 +105,51 @@ function PizzaGeneratorPage({
           ></PizzaAppDropdown>
         </div>
 
-        <div className={"container row " + innerMargins}>
+        <div className={innerMargins}>
           <SimpleButton
-            buttonText="Generate & Add"
+            buttonText="Generate & Archive"
             handleOnClick={() =>
               handleGenerateWithCallback(generateCount, onAddCreatedPizza)
             }
           ></SimpleButton>
-          <SimpleButton
-            buttonText="Generate & Preview"
-            handleOnClick={() =>
-              handleGenerateWithCallback(
-                generateCount,
-                handleAddGeneratedPizzaToPreview
-              )
-            }
-          ></SimpleButton>
         </div>
 
-        <div className={"container row " + innerMargins}>
-          {generatedPizzas.length > 0 ? (
+        <div className="container border mt-2 pb-3">
+          <div className={"container " + innerMargins}>
             <SimpleButton
-              buttonText="Add generated pizzas"
-              handleOnClick={() =>
-                handleGenerateWithCallback(generateCount, onAddCreatedPizza)
-              }
+              buttonText="Generate & Preview"
+              handleOnClick={() => {
+                clearPreviewPizas();
+                handleGenerateWithCallback(
+                  generateCount,
+                  handleAddGeneratedPizzaToPreview
+                );
+              }}
             ></SimpleButton>
-          ) : null}
-        </div>
+          </div>
+          <div className={"container " + innerMargins}>
+            {generatedPreviewPizzas.length > 0 ? (
+              <SimpleButton
+                buttonText="Archive All"
+                handleOnClick={handleAddAllPreviewToArchive}
+              ></SimpleButton>
+            ) : null}
+          </div>
 
-        <div className={"container mt-2"}>
-          <div className="list-group" id="pizza-list">
-            {generatedPizzas.map((x) => (
-              <CreatedPizzaListItem
-                key={x.pizzaName}
-                pizza={x}
-                handleDelete={handleDeletePizza}
-              ></CreatedPizzaListItem>
-            ))}
+          {generatedPreviewPizzas.length === 0 ? (
+            <p className="text-center">No pizzas generated for preview.</p>
+          ) : null}
+
+          <div className={"container mt-2"}>
+            <div className="list-group" id="pizza-list">
+              {generatedPreviewPizzas.map((x) => (
+                <CreatedPizzaListItem
+                  key={x.pizzaName}
+                  pizza={x}
+                  handleDelete={handleDeletePizza}
+                ></CreatedPizzaListItem>
+              ))}
+            </div>
           </div>
         </div>
       </div>
