@@ -1,24 +1,22 @@
-type SimpleButtonProps = {
+type ModalButtonProps = {
   buttonText: string;
-  handleOnClick: () => void;
-  dismissModals?: boolean;
+  modalTarget: string;
 };
 
-export default function SimpleButton({
+export default function ModalButton({
   buttonText,
-  handleOnClick,
-  dismissModals = false,
-}: SimpleButtonProps) {
+  modalTarget,
+}: ModalButtonProps) {
   return (
     <>
       <div className="col">
         <div className="text-center">
           <button
-            onClick={handleOnClick}
             type="button"
             className="btn btn-pizza-clickable col"
+            data-bs-toggle="modal"
+            data-bs-target={modalTarget}
             style={{ width: 200 }}
-            data-bs-dismiss={dismissModals ? "modal" : null}
           >
             {buttonText}
           </button>
