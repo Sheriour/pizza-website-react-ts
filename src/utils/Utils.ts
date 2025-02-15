@@ -1,4 +1,4 @@
-import { IngredientDiet, Ingredient } from "../Types";
+import { IngredientDiet, Ingredient, Pizza } from "../Types";
 
 /**
  * Judge overall diet of a list of ingredients (eg. if the list has at least one meat item, it will return "all")
@@ -39,6 +39,42 @@ export function IngredientMatchesDiet(
   //Default route
   return false;
 }
+
+/**
+ * Verifies whether a given pizza matches given diet restrictions
+ *
+ * @param pizza       Pizza in question
+ * @param diet        Diet to compare against
+ * @returns           True if pizza is within the diet requirement
+ */
+export function PizzaMatchesDiet(pizza: Pizza, diet: IngredientDiet): boolean {
+  for (const ingredient of pizza.ingredients) {
+    if (!IngredientMatchesDiet(ingredient, diet)) return false;
+  }
+  return true;
+}
+
+/**
+ * Verifies whether a given pizza matches given string partial search term
+ * Search is done against pizza name, crust and ingredients
+ *
+ * @param pizza       Pizza in question
+ * @param searchTerm  Text to compare against
+ * @returns           True if pizza contains the search term
+ */
+export function PizzaMatchesSearchTerm(
+  pizza: Pizza,
+  searchTerm: string
+): boolean {
+  const searchTermLower: string = searchTerm.toLowerCase();
+  if (pizza.crust.toLowerCase().includes(searchTermLower)) return true;
+  if (pizza.pizzaName.toLowerCase().includes(searchTermLower)) return true;
+  for (const ingredient of pizza.ingredients) {
+    if (ingredient.name.toLowerCase().includes(searchTermLower)) return true;
+  }
+  return false;
+}
+
 /**
  * Comparer function to sort ingredients aplhabtically
  *

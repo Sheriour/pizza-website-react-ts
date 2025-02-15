@@ -56,19 +56,19 @@ function MainApp() {
           onClick={onSelectAppMode}
         />
 
-        {/*Pizza List Button*/}
-        <TopMenuButton
-          currentAppMode={appMode}
-          buttonIdentifier="pizzalist"
-          buttonText="Pizza Archive"
-          onClick={onSelectAppMode}
-        />
-
         {/*Pizza Generator Button*/}
         <TopMenuButton
           currentAppMode={appMode}
           buttonIdentifier="pizzagenerator"
           buttonText="Pizza Generator"
+          onClick={onSelectAppMode}
+        />
+
+        {/*Pizza List Button*/}
+        <TopMenuButton
+          currentAppMode={appMode}
+          buttonIdentifier="pizzalist"
+          buttonText="Pizza Archive"
           onClick={onSelectAppMode}
         />
       </div>

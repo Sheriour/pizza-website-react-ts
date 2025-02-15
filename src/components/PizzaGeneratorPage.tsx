@@ -30,7 +30,7 @@ function PizzaGeneratorPage({
     setGenerateCount(count);
   };
 
-  const handlePizzaTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handlePizzaDietChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setPizzaDiet(e.currentTarget.value as IngredientDiet);
   };
 
@@ -100,23 +100,24 @@ function PizzaGeneratorPage({
           <PizzaAppDropdown
             label="What kind of pizzas?"
             stateList={["all", "vegetarian", "vegan"]}
-            stateUpdateFunction={handlePizzaTypeChange}
+            stateUpdateFunction={handlePizzaDietChange}
             stateVar={pizzaDiet}
           ></PizzaAppDropdown>
         </div>
-        <div className={innerMargins}>
-          <SimpleButton
-            dismissModals={false}
-            buttonText="Generate & Archive"
-            handleOnClick={() =>
-              handleGenerateWithCallback(generateCount, onAddCreatedPizza)
-            }
-          ></SimpleButton>
+
+        <div className="container border mt-2 pb-3">
+          <div className={innerMargins}>
+            <SimpleButton
+              buttonText="Generate & Archive"
+              handleOnClick={() =>
+                handleGenerateWithCallback(generateCount, onAddCreatedPizza)
+              }
+            ></SimpleButton>
+          </div>
         </div>
         <div className="container border mt-2 pb-3">
           <div className={"container " + innerMargins}>
             <SimpleButton
-              dismissModals={false}
               buttonText="Generate & Preview"
               handleOnClick={() => {
                 clearPreviewPizas();
@@ -131,7 +132,6 @@ function PizzaGeneratorPage({
           <div className={"container " + innerMargins}>
             {generatedPreviewPizzas.length > 0 ? (
               <SimpleButton
-                dismissModals={false}
                 buttonText="Archive All"
                 handleOnClick={handleAddAllPreviewToArchive}
               ></SimpleButton>
