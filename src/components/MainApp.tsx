@@ -17,7 +17,7 @@ function MainApp() {
     setAppMode(newAppMode);
   };
 
-  //Global list of pizzas
+  //Global list of pizzas. This will be shared with child components
   const [createdPizzas, setCreatedPizzas] = useState<Pizza[]>([]);
 
   const onAddCreatedPizza = (newPizza: Pizza) => {

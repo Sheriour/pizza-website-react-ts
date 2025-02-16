@@ -1,9 +1,9 @@
 import { ChangeEvent, useState } from "react";
-import { IngredientDiet, NullablePizza, Pizza } from "../Types";
-import { GeneratePizza } from "../utils/PizzaGenerator";
+import { IngredientDiet, Pizza } from "../Types";
+import { generatePizza } from "../utils/PizzaGenerator";
 import SimpleButton from "./SimpleButton";
 import PizzaAppDropdown from "./PizzaAppDropdown";
-import { ToastSuccess } from "../utils/PizzaToast";
+import { toastSuccess } from "../utils/PizzaToast";
 import CreatedPizzaListItem from "./CreatedPizzaListItem";
 
 type PizzaGeneratorProps = {
@@ -15,7 +15,7 @@ function PizzaGeneratorPage({
   onAddCreatedPizza,
   currentPizzas,
 }: PizzaGeneratorProps) {
-  let innerMargins: string = "mt-3";
+  let innerMargins = "mt-3";
 
   const [generateCount, setGenerateCount] = useState(1);
   const [pizzaDiet, setPizzaDiet] = useState<IngredientDiet>("all");
@@ -24,7 +24,7 @@ function PizzaGeneratorPage({
   );
 
   const handleGenerateCountChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let count: number = +e.currentTarget.value;
+    let count = +e.currentTarget.value;
     if (count > 10) count = 10;
     else if (count < 1) count = 1;
     setGenerateCount(count);
@@ -53,31 +53,45 @@ function PizzaGeneratorPage({
     setgeneratedPreviewPizzas([]);
   };
 
+  /**
+   * Generates a pizza and processes it further based on the passed callback function
+   * To avoid name duplication, the utils function generatePizza() will be given a concatenation
+   * of existing pizzas and any preview pizzas currently on screen.
+   *
+   * @param count                 Number of pizzas to generate
+   * @param handleGeneratedPizza  A call back function defining pizza treatment after creation
+   */
   const handleGenerateWithCallback = (
     count: number,
     handleGeneratedPizza: (pizza: Pizza) => void
   ) => {
-    let generatedPizzaCount: number = 0;
+    let generatedPizzaCount = 0;
 
-    let generatedPizza: NullablePizza = null;
+    let generatedPizza = null;
     for (let i = 0; i < count; i++) {
-      generatedPizza = GeneratePizza(currentPizzas, pizzaDiet);
+      generatedPizza = generatePizza(
+        [...currentPizzas, ...generatedPreviewPizzas],
+        pizzaDiet
+      );
       if (generatedPizza !== null) {
         handleGeneratedPizza(generatedPizza as Pizza);
         generatedPizzaCount++;
       }
     }
     if (generateCount > 0) {
-      if (generateCount == 1) ToastSuccess("Generated one pizza.");
-      else ToastSuccess("Generated " + generateCount + " pizzas.");
+      if (generateCount == 1) toastSuccess("Generated one pizza.");
+      else toastSuccess("Generated " + generateCount + " pizzas.");
     }
   };
 
+  /**
+   * Adds all pizzas listed in preview to archive and clears the preview list
+   */
   const handleAddAllPreviewToArchive = () => {
     let count = generatedPreviewPizzas.length;
     for (const pizza of generatedPreviewPizzas) onAddCreatedPizza(pizza);
     clearPreviewPizas();
-    ToastSuccess("Added " + count + " pizzas to Archive.");
+    toastSuccess("Added " + count + " pizzas to Archive.");
   };
 
   return (

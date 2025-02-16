@@ -6,10 +6,9 @@ import { IngredientDiet, Ingredient, Pizza } from "../Types";
  * @param ingredients List of ingredients
  * @returns           Overall diet of the ingredients
  */
-export function GetDietFromIngredientList(
+export function getDietFromIngredientList(
   ingredients: Ingredient[]
 ): IngredientDiet {
-  console.log(ingredients);
   if (ingredients.some((x) => x.diet === "all")) return "all";
   else if (ingredients.some((x) => x.diet === "vegetarian"))
     return "vegetarian";
@@ -23,7 +22,7 @@ export function GetDietFromIngredientList(
  * @param diet        Diet to compare against
  * @returns           True if ingredient is within the diet requirement
  */
-export function IngredientMatchesDiet(
+export function ingredientMatchesDiet(
   ingredient: Ingredient,
   diet: IngredientDiet
 ): boolean {
@@ -47,9 +46,9 @@ export function IngredientMatchesDiet(
  * @param diet        Diet to compare against
  * @returns           True if pizza is within the diet requirement
  */
-export function PizzaMatchesDiet(pizza: Pizza, diet: IngredientDiet): boolean {
+export function pizzaMatchesDiet(pizza: Pizza, diet: IngredientDiet): boolean {
   for (const ingredient of pizza.ingredients) {
-    if (!IngredientMatchesDiet(ingredient, diet)) return false;
+    if (!ingredientMatchesDiet(ingredient, diet)) return false;
   }
   return true;
 }
@@ -62,11 +61,11 @@ export function PizzaMatchesDiet(pizza: Pizza, diet: IngredientDiet): boolean {
  * @param searchTerm  Text to compare against
  * @returns           True if pizza contains the search term
  */
-export function PizzaMatchesSearchTerm(
+export function pizzaMatchesSearchTerm(
   pizza: Pizza,
   searchTerm: string
 ): boolean {
-  const searchTermLower: string = searchTerm.toLowerCase();
+  const searchTermLower = searchTerm.toLowerCase();
   if (pizza.crust.toLowerCase().includes(searchTermLower)) return true;
   if (pizza.pizzaName.toLowerCase().includes(searchTermLower)) return true;
   for (const ingredient of pizza.ingredients) {
@@ -76,17 +75,39 @@ export function PizzaMatchesSearchTerm(
 }
 
 /**
- * Comparer function to sort ingredients aplhabtically
+ * Comparer function to sort ingredients alphabtically
  *
  * @param a First ingredient
  * @param b Second ingredient
  * @returns Comparison result
  */
-export function CompareIngredientsAlphabetically(a: Ingredient, b: Ingredient) {
-  if (a.name < b.name) {
+export function compareIngredientsAlphabetically(a: Ingredient, b: Ingredient) {
+  return compareStringsAlphabetically(a.name, b.name);
+}
+
+/**
+ * Comparer function to sort pizzas alphabtically
+ *
+ * @param a First pizza
+ * @param b Second pizza
+ * @returns Comparison result
+ */
+export function comparePizzasAlphabetically(a: Pizza, b: Pizza) {
+  return compareStringsAlphabetically(a.pizzaName, b.pizzaName);
+}
+
+/**
+ * Comparer function to sort strings alphabetically
+ *
+ * @param a
+ * @param b
+ * @returns
+ */
+function compareStringsAlphabetically(a: string, b: string) {
+  if (a < b) {
     return -1;
   }
-  if (a.name > b.name) {
+  if (a > b) {
     return 1;
   }
   return 0;
@@ -99,7 +120,7 @@ export function CompareIngredientsAlphabetically(a: Ingredient, b: Ingredient) {
  * @param b Second ingredient
  * @returns Comparison result
  */
-export function CompareIngredientsByType(a: Ingredient, b: Ingredient) {
+export function compareIngredientsByType(a: Ingredient, b: Ingredient) {
   if (a.type === "sauce") {
     return -1;
   }
@@ -119,7 +140,7 @@ export function CompareIngredientsByType(a: Ingredient, b: Ingredient) {
  * @param array Any array
  * @returns     A random item from the array
  */
-export function GetRandomArrayElement(array: any[]): any {
+export function getRandomArrayElement(array: any[]): any {
   return array[(array.length * Math.random()) | 0]; //The "| 0" truncates the floating point to an integer
 }
 
@@ -129,7 +150,7 @@ export function GetRandomArrayElement(array: any[]): any {
  * @param array Any array
  * @returns     An array of unique items from the array
  */
-export function GetRandomArrayElements(array: any[], count: number): any[] {
+export function getRandomArrayElements(array: any[], count: number): any[] {
   if (count > array.length) {
     console.error(
       "Requested a count of random elements from array that was higher than array length!"
@@ -137,9 +158,9 @@ export function GetRandomArrayElements(array: any[], count: number): any[] {
     return [];
   }
 
-  const newArray: any[] = [];
+  const newArray = [];
   for (let i = 0; i < count; i++) {
-    let randomItem = GetRandomArrayElement(array);
+    let randomItem = getRandomArrayElement(array);
     newArray.push(randomItem);
     array = array.filter((x) => x !== randomItem);
   }

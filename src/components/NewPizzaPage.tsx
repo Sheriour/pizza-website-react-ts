@@ -4,12 +4,12 @@ import { Ingredient, Pizza, IngredientDiet, IngredientType } from "../Types";
 import VegBadge from "./VegBadge";
 import ingredients from "../data/ingredients.json";
 import {
-  IngredientMatchesDiet,
-  CompareIngredientsAlphabetically,
+  ingredientMatchesDiet,
+  compareIngredientsAlphabetically,
 } from "../utils/Utils";
 import PizzaAppDropdown from "./PizzaAppDropdown";
 import SimpleButton from "./SimpleButton";
-import { ToastFailure, ToastSuccess } from "../utils/PizzaToast";
+import { toastFailure, toastSuccess } from "../utils/PizzaToast";
 
 type newPizzaPageProps = {
   onAddCreatedPizza: (newPizza: Pizza) => void;
@@ -19,7 +19,7 @@ type newPizzaPageProps = {
 const defaultIngredients = ingredients as Ingredient[];
 
 function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
-  let innerMargins: string = "mt-3";
+  let innerMargins = "mt-3";
 
   const [pizzaName, setPizzaName] = useState("");
   const [selectedCrust, setSelectedCrust] = useState("");
@@ -51,9 +51,6 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
     setIngredientTypeFilter(event.target.value as IngredientType);
   };
 
-  /**
-   * Clears the new pizza form
-   */
   const clearForm = () => {
     setPizzaName("");
     setSelectedCrust("");
@@ -61,7 +58,7 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
   };
 
   /**
-   * Returns created pizza
+   * @returns An assembled pizza object based on all user choices in the form
    */
   const getCreatedPizza = (): Pizza => {
     return {
@@ -79,17 +76,17 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
     currentPizzas: Pizza[],
     creationCallback: (pizzaParam: Pizza) => void
   ): void => {
-    let pizza: Pizza = getCreatedPizza();
-    if (pizza.pizzaName === "") ToastFailure("Please provide a pizza name!");
-    else if (pizza.crust === "") ToastFailure("Please select a crust type!");
+    let pizza = getCreatedPizza();
+    if (pizza.pizzaName === "") toastFailure("Please provide a pizza name!");
+    else if (pizza.crust === "") toastFailure("Please select a crust type!");
     else if (pizza.ingredients.length < 2)
-      ToastFailure("Please select at least 2 ingredients!");
+      toastFailure("Please select at least 2 ingredients!");
     else if (currentPizzas.some((x) => x.pizzaName === pizza.pizzaName)) {
-      ToastFailure("Pizza with name " + pizza.pizzaName + " already exists!");
+      toastFailure("Pizza with name " + pizza.pizzaName + " already exists!");
     } else {
       creationCallback(pizza);
       clearForm();
-      ToastSuccess("Pizza created!");
+      toastSuccess("Pizza created!");
     }
   };
 
@@ -182,11 +179,11 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
             {ingredients
               .filter(
                 (x) =>
-                  IngredientMatchesDiet(x, ingredientDietFilter) &&
+                  ingredientMatchesDiet(x, ingredientDietFilter) &&
                   (ingredientTypeFilter === "all" ||
                     x.type === ingredientTypeFilter)
               )
-              .sort(CompareIngredientsAlphabetically)
+              .sort(compareIngredientsAlphabetically)
               .map((x) => (
                 <button
                   key={x.id}
@@ -205,11 +202,7 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
                   </span>
 
                   <span>
-                    {x.portion === 1
-                      ? "Single"
-                      : x.portion === 2
-                      ? "Double!"
-                      : ""}
+                    {x.portion === 1 ? "1x" : x.portion === 2 ? "2x" : ""}
                   </span>
                 </button>
               ))}

@@ -1,10 +1,14 @@
-import { ChangeEvent, SetStateAction, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { IngredientDiet, Pizza } from "../Types";
 import CreatedPizzaListItem from "./CreatedPizzaListItem";
 import ModalButton from "./ModalButton";
 import PizzaAppDropdown from "./PizzaAppDropdown";
 import SimpleButton from "./SimpleButton";
-import { PizzaMatchesDiet, PizzaMatchesSearchTerm } from "../utils/Utils";
+import {
+  comparePizzasAlphabetically,
+  pizzaMatchesDiet,
+  pizzaMatchesSearchTerm,
+} from "../utils/Utils";
 
 type PizzaListProps = {
   createdPizzas: Pizza[];
@@ -35,7 +39,7 @@ function PizzaList({ createdPizzas, onDeletePizza }: PizzaListProps) {
         <h4 className={"text-center " + innerMargins}>Pizza Archive</h4>
 
         <div
-          className="modal"
+          className="modal fade"
           id="clearArchiveModal"
           tabIndex={-1}
           aria-labelledby="clearArchiveModalLabel"
@@ -100,8 +104,9 @@ function PizzaList({ createdPizzas, onDeletePizza }: PizzaListProps) {
         <div className={"container mt-2"}>
           <div className="list-group" id="pizza-list">
             {createdPizzas
-              .filter((x) => PizzaMatchesDiet(x, pizzaDiet))
-              .filter((x) => PizzaMatchesSearchTerm(x, pizzaSearch))
+              .filter((x) => pizzaMatchesDiet(x, pizzaDiet))
+              .filter((x) => pizzaMatchesSearchTerm(x, pizzaSearch))
+              .sort(comparePizzasAlphabetically)
               .map((x) => (
                 <CreatedPizzaListItem
                   key={x.pizzaName}

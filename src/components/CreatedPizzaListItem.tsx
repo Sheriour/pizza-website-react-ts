@@ -1,8 +1,8 @@
 import { Pizza } from "../Types";
 import VegBadge from "./VegBadge";
 import {
-  GetDietFromIngredientList,
-  CompareIngredientsByType,
+  getDietFromIngredientList,
+  compareIngredientsByType,
 } from "../utils/Utils";
 
 type PizzaListItemProps = {
@@ -11,13 +11,18 @@ type PizzaListItemProps = {
 };
 
 function CreatedPizzaListItem({ pizza, handleDelete }: PizzaListItemProps) {
+  /**
+   * Combines all ingredient names into a single string, adding "2x" to ingredients with double portions
+   *
+   * @returns Combined ingredient string
+   */
   const getIngredientsString = (): string => {
-    let ingredientsString: string = "";
+    let ingredientsString = "";
     pizza.ingredients
-      .sort(CompareIngredientsByType)
+      .sort(compareIngredientsByType)
       .map((x) =>
         x.portion == 2
-          ? (ingredientsString += x.name + " (Double!), ")
+          ? (ingredientsString += x.name + " (2x), ")
           : (ingredientsString += x.name + ", ")
       );
     return ingredientsString.substring(0, ingredientsString.length - 2);
@@ -30,7 +35,7 @@ function CreatedPizzaListItem({ pizza, handleDelete }: PizzaListItemProps) {
           <h5 className="mb-2 text-center">{pizza.pizzaName}</h5>
 
           <VegBadge
-            diet={GetDietFromIngredientList(pizza.ingredients)}
+            diet={getDietFromIngredientList(pizza.ingredients)}
           ></VegBadge>
         </span>
 

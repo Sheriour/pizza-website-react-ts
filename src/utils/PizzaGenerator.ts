@@ -1,8 +1,8 @@
 import { Ingredient, IngredientDiet, NullablePizza, Pizza } from "../Types";
 import {
-  GetRandomArrayElement,
-  GetRandomArrayElements,
-  IngredientMatchesDiet,
+  getRandomArrayElement,
+  getRandomArrayElements,
+  ingredientMatchesDiet,
 } from "./Utils";
 import ingredients from "../data/ingredients.json";
 
@@ -77,31 +77,48 @@ const secondNamePart = [
  * @param currentPizzas The list of all current pizzas
  * @returns             A randomly generated pizza
  */
-export function GeneratePizza(
+export function generatePizza(
   currentPizzas: Pizza[],
   diet: IngredientDiet
 ): NullablePizza {
-  const name: string = GenerateUniquePizzaName(
-    currentPizzas.map((x) => x.pizzaName)
-  );
+  const name = generateUniquePizzaName(currentPizzas.map((x) => x.pizzaName));
+
+  //If sent diet is "all", randomise the diet, but skew towards general pizzas
+  if (diet == "all")
+    diet = getRandomArrayElement([
+      "all",
+      "all",
+      "all",
+      "all",
+      "vegetarian",
+      "vegan",
+    ]);
+
   if (name !== "") {
     return {
-      crust: GetRandomArrayElement(crustTypes),
+      crust: getRandomArrayElement(crustTypes),
       pizzaName: name,
-      ingredients: GeneratePizzaIngredients(diet),
+      ingredients: generatePizzaIngredients(diet),
     };
   } else return null;
 }
 
-function GeneratePizzaIngredients(diet: IngredientDiet): Ingredient[] {
+/**
+ * Generates a list of ingredients for a pizza with given diet
+ * Non-vegan pizzas will not be generated with vegan cheese
+ *
+ * @param diet  Desired pizza diet
+ * @returns     An array of ingredients matching the desired diet
+ */
+function generatePizzaIngredients(diet: IngredientDiet): Ingredient[] {
   //First let's filter out based on normal diet matching
-  const filteredSauceIngredients: Ingredient[] = sauceIngredients.filter((x) =>
-    IngredientMatchesDiet(x, diet)
+  const filteredSauceIngredients = sauceIngredients.filter((x) =>
+    ingredientMatchesDiet(x, diet)
   );
-  let filteredCheeseIngredients: Ingredient[] = cheeseIngredients.filter((x) =>
-    IngredientMatchesDiet(x, diet)
+  let filteredCheeseIngredients = cheeseIngredients.filter((x) =>
+    ingredientMatchesDiet(x, diet)
   );
-  //Now, given that non-vegan people despise "vegan cheeze", we need to make sure
+  //Given that non-vegan people despise "vegan cheeze", we need to make sure
   //that generating non-vegan pizzas avoids using any vegan cheese substitutes
   if (diet !== "vegan")
     filteredCheeseIngredients = filteredCheeseIngredients.filter(
@@ -110,13 +127,13 @@ function GeneratePizzaIngredients(diet: IngredientDiet): Ingredient[] {
 
   //Start with one sauce and one cheese
   const ingredients = [
-    { ...GetRandomArrayElement(filteredSauceIngredients), portion: 1 },
-    { ...GetRandomArrayElement(filteredCheeseIngredients), portion: 1 },
+    { ...getRandomArrayElement(filteredSauceIngredients), portion: 1 },
+    { ...getRandomArrayElement(filteredCheeseIngredients), portion: 1 },
   ];
   //And add random number of toppings (between 1 and 4)
-  const randomToppingIngredients = GetRandomArrayElements(
+  const randomToppingIngredients = getRandomArrayElements(
     toppingIngredients
-      .filter((x) => IngredientMatchesDiet(x, diet))
+      .filter((x) => ingredientMatchesDiet(x, diet))
       .map((x) => {
         return { ...x }; //Generate a shallow copy
       }),
@@ -135,14 +152,14 @@ function GeneratePizzaIngredients(diet: IngredientDiet): Ingredient[] {
  * @param currentNames  Current names of pizzas to avoid
  * @returns             Random name of a pizza which does not exist in array of current names
  */
-function GenerateUniquePizzaName(currentNames: string[]): string {
+function generateUniquePizzaName(currentNames: string[]): string {
   const maxRetries = 10;
   let retries = 0;
 
-  let newName = GeneratePizzaName();
+  let newName = generatePizzaName();
   while (currentNames.includes(newName) && retries < maxRetries) {
     retries++;
-    newName = GeneratePizzaName();
+    newName = generatePizzaName();
   }
   if (retries === 10) {
     console.error(
@@ -157,10 +174,10 @@ function GenerateUniquePizzaName(currentNames: string[]): string {
 /**
  * @returns a random pizza name from the two arrays of strings like "Heavenly Symphony"
  */
-function GeneratePizzaName(): string {
+function generatePizzaName(): string {
   return (
-    GetRandomArrayElement(firstNamePart) +
+    getRandomArrayElement(firstNamePart) +
     " " +
-    GetRandomArrayElement(secondNamePart)
+    getRandomArrayElement(secondNamePart)
   );
 }

@@ -5,8 +5,7 @@ type VegBadgeProps = {
 };
 
 function VegBadge({ diet }: VegBadgeProps) {
-  let badgeText: string =
-    diet === "vegetarian" ? "V" : diet === "vegan" ? "Ve" : "";
+  let badgeText = diet === "vegetarian" ? "V" : diet === "vegan" ? "Ve" : "";
 
   return (
     <>
