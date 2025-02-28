@@ -99,7 +99,7 @@ function PizzaGeneratorPage({
       <div className="container border mt-2 pb-3">
         <h4 className={"text-center mt-3"}>Pizza Generator</h4>
 
-        <div className={"container row " + innerMargins}>
+        <div className={"container " + innerMargins}>
           <label htmlFor="pizzaNameInput">How many pizzas to generate?</label>
           <input
             id="pizzaCountInput"

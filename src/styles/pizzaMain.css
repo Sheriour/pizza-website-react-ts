@@ -3,6 +3,11 @@ input:-webkit-autofill {
   transition: background-color 99999s;
 }
 
+/*This prevents the addition of a scrollbar from moving the page alignment to the left*/
+body {
+    overflow-y:scroll;
+}
+
 label {
     font-weight: bold;
 }

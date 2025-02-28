@@ -15,9 +15,7 @@ function PizzaAppDropdown({
 }: PizzaAppDropdownProps) {
   return (
     <>
-      <label htmlFor="ingredientsFilter">
-        <small>{label}</small>
-      </label>
+      <label htmlFor="ingredientsFilter">{label}</label>
       <select
         id="ingredientsFilter"
         className="form-select"

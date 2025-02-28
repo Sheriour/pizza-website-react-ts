@@ -71,14 +71,14 @@ function PizzaList({ createdPizzas, onDeletePizza }: PizzaListProps) {
           </div>
         </div>
 
-        <PizzaAppDropdown
-          label="What kind of pizzas?"
-          stateList={["all", "vegetarian", "vegan"]}
-          stateUpdateFunction={handlePizzaDietChange}
-          stateVar={pizzaDiet}
-        ></PizzaAppDropdown>
+        <div className={"container"}>
+          <PizzaAppDropdown
+            label="What kind of pizzas?"
+            stateList={["all", "vegetarian", "vegan"]}
+            stateUpdateFunction={handlePizzaDietChange}
+            stateVar={pizzaDiet}
+          ></PizzaAppDropdown>
 
-        <div className={"container " + innerMargins}>
           <label htmlFor="pizzaSearchInput">Search pizzas</label>
           <input
             id="pizzaSearchInput"
