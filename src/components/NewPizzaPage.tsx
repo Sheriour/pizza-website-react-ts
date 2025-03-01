@@ -163,6 +163,7 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
             stateList={["all", "vegetarian", "vegan"]}
             stateUpdateFunction={handleIngredientDietFilterChange}
             stateVar={ingredientDietFilter}
+            id="pizza-filter-diet"
           ></PizzaAppDropdown>
 
           <PizzaAppDropdown
@@ -170,6 +171,7 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
             stateList={["all", "sauce", "cheese", "meat", "plant"]}
             stateUpdateFunction={handleIngredientTypeFilterChange}
             stateVar={ingredientTypeFilter}
+            id="pizza-filter-type"
           ></PizzaAppDropdown>
 
           <label htmlFor="ingredients">
@@ -201,7 +203,7 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
                     {x.name} <VegBadge diet={x.diet}></VegBadge>
                   </span>
 
-                  <span>
+                  <span data-test-id="portion-size">
                     {x.portion === 1 ? "1x" : x.portion === 2 ? "2x" : ""}
                   </span>
                 </button>
@@ -211,6 +213,7 @@ function NewPizzaPage({ onAddCreatedPizza, currentPizzas }: newPizzaPageProps) {
         <div className={"container " + innerMargins}>
           {" "}
           <SimpleButton
+            dataTestId="create-pizza-button"
             buttonText="Create"
             handleOnClick={() =>
               handlePizzaCreation(currentPizzas, onAddCreatedPizza)

@@ -57,11 +57,13 @@ function PizzaList({ createdPizzas, onDeletePizza }: PizzaListProps) {
               </div>
               <div className="modal-footer">
                 <SimpleButton
+                  dataTestId="modal-no-button"
                   buttonText="No"
                   handleOnClick={() => null}
                   dismissModals={true}
                 ></SimpleButton>
                 <SimpleButton
+                  dataTestId="modal-yes-button"
                   buttonText="Yes"
                   handleOnClick={deleteAllFromArchive}
                   dismissModals={true}
@@ -77,6 +79,7 @@ function PizzaList({ createdPizzas, onDeletePizza }: PizzaListProps) {
             stateList={["all", "vegetarian", "vegan"]}
             stateUpdateFunction={handlePizzaDietChange}
             stateVar={pizzaDiet}
+            id="pizza-filter-diet"
           ></PizzaAppDropdown>
 
           <label htmlFor="pizzaSearchInput">Search pizzas</label>
@@ -95,6 +98,7 @@ function PizzaList({ createdPizzas, onDeletePizza }: PizzaListProps) {
         ) : (
           <div className={"container " + innerMargins}>
             <ModalButton
+              dataTestId="clear-archive-button"
               buttonText="Clear Archive"
               modalTarget="#clearArchiveModal"
             ></ModalButton>

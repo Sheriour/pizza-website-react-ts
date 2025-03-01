@@ -5,6 +5,7 @@ type PizzaAppDropdownProps = {
   stateList: string[];
   stateVar: string;
   stateUpdateFunction: (event: ChangeEvent<HTMLSelectElement>) => void;
+  id: string;
 };
 
 function PizzaAppDropdown({
@@ -12,12 +13,13 @@ function PizzaAppDropdown({
   stateList,
   stateVar,
   stateUpdateFunction,
+  id,
 }: PizzaAppDropdownProps) {
   return (
     <>
-      <label htmlFor="ingredientsFilter">{label}</label>
+      <label htmlFor={id}>{label}</label>
       <select
-        id="ingredientsFilter"
+        id={id}
         className="form-select"
         value={stateVar === stateList[0] ? "All" : stateVar}
         onChange={stateUpdateFunction}

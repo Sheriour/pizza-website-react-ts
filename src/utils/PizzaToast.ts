@@ -7,6 +7,7 @@ export function toastSuccess(text: string) {
   toast.success(text, {
     position: "top-center",
     autoClose: 3000,
+    toastId: "success-toast",
   });
 }
 
@@ -17,5 +18,6 @@ export function toastFailure(text: string) {
   toast.error(text, {
     position: "top-center",
     autoClose: 3000,
+    toastId: "failure-toast",
   });
 }

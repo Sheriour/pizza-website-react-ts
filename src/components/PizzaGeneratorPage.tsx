@@ -116,12 +116,14 @@ function PizzaGeneratorPage({
             stateList={["all", "vegetarian", "vegan"]}
             stateUpdateFunction={handlePizzaDietChange}
             stateVar={pizzaDiet}
+            id="pizza-filter-diet"
           ></PizzaAppDropdown>
         </div>
 
         <div className="container border mt-2 pb-3">
           <div className={innerMargins}>
             <SimpleButton
+              dataTestId="generate-archive-button"
               buttonText="Generate & Archive"
               handleOnClick={() =>
                 handleGenerateWithCallback(generateCount, onAddCreatedPizza)
@@ -132,6 +134,7 @@ function PizzaGeneratorPage({
         <div className="container border mt-2 pb-3">
           <div className={"container " + innerMargins}>
             <SimpleButton
+              dataTestId="generate-preview-button"
               buttonText="Generate & Preview"
               handleOnClick={() => {
                 clearPreviewPizas();
@@ -146,6 +149,7 @@ function PizzaGeneratorPage({
           <div className={"container " + innerMargins}>
             {generatedPreviewPizzas.length > 0 ? (
               <SimpleButton
+                dataTestId="archive-all-button"
                 buttonText="Archive All"
                 handleOnClick={handleAddAllPreviewToArchive}
               ></SimpleButton>
@@ -157,7 +161,7 @@ function PizzaGeneratorPage({
           ) : null}
 
           <div className={"container mt-2"}>
-            <div className="list-group" id="pizza-list">
+            <div className="list-group" id="preview-pizza-list">
               {generatedPreviewPizzas.map((x) => (
                 <CreatedPizzaListItem
                   key={x.pizzaName}

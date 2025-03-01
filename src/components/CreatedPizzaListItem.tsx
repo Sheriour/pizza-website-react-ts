@@ -41,15 +41,16 @@ function CreatedPizzaListItem({ pizza, handleDelete }: PizzaListItemProps) {
 
         <button
           className="btn-close btn-close-custom"
+          data-test-id="delete-pizza-button"
           onClick={() => handleDelete(pizza)}
         ></button>
       </span>
 
-      <p className="mb-1">
+      <p className="mb-1" data-test-id="crust-type">
         <strong>Crust:</strong> {pizza.crust}
       </p>
 
-      <p className="mb-1">
+      <p className="mb-1" data-test-id="pizza-ingredients">
         <strong>Ingredients:</strong> {getIngredientsString()}
       </p>
     </div>
