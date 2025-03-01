@@ -71,7 +71,7 @@ function PizzaList({ createdPizzas, onDeletePizza }: PizzaListProps) {
           </div>
         </div>
 
-        <div className={"container"}>
+        <div className={"container " + innerMargins}>
           <PizzaAppDropdown
             label="What kind of pizzas?"
             stateList={["all", "vegetarian", "vegan"]}
