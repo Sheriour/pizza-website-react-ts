@@ -29,7 +29,10 @@ function CreatedPizzaListItem({ pizza, handleDelete }: PizzaListItemProps) {
   };
 
   return (
-    <div className="list-group-item justify-content-between mb-2">
+    <div
+      className="list-group-item justify-content-between mb-2"
+      data-test-id="pizza-list-item"
+    >
       <span className="justify-content-between d-flex">
         <span className="d-flex">
           <h5 className="mb-2 text-center">{pizza.pizzaName}</h5>
