@@ -35,7 +35,9 @@ function CreatedPizzaListItem({ pizza, handleDelete }: PizzaListItemProps) {
     >
       <span className="justify-content-between d-flex">
         <span className="d-flex">
-          <h5 className="mb-2 text-center">{pizza.pizzaName}</h5>
+          <h5 className="mb-2 text-center" data-test-id="pizza-name">
+            {pizza.pizzaName}
+          </h5>
 
           <VegBadge
             diet={getDietFromIngredientList(pizza.ingredients)}
